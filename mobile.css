@@ -1,0 +1,12 @@
+.topbar-actions{display:flex;align-items:center;gap:10px}.install-button{border:1px solid #174d40;background:#fff;border-radius:20px;padding:6px 10px;color:#174d40;font:11px "Noto Sans JP",sans-serif;white-space:nowrap}button,input{touch-action:manipulation}.point-column button,.outline-button,.text-button{ -webkit-tap-highlight-color:transparent }
+@media (max-width:620px){
+  .app-shell{padding:14px 14px calc(30px + env(safe-area-inset-bottom))}
+  .topbar{position:sticky;top:0;z-index:5;background:#f7f6f1;padding:9px 0 14px}
+  .brand{font-size:12px}.match-state{display:none}.install-button{font-size:10px;padding:5px 9px}
+  .ad-slot{height:50px;margin-bottom:24px}.hero{align-items:start;gap:14px;margin-bottom:28px}.hero-note{font-size:10px}
+  .fields,.analysis-grid{grid-template-columns:1fr}.fields input{min-height:44px;font-size:16px}
+  .score-area{grid-template-columns:1fr 58px 1fr;margin-bottom:25px}.score-card{padding:16px 11px;min-height:164px}.score{font-size:54px}.name-input,.player-display{font-size:14px}.game-center p{font-size:9px}.versus{font-size:16px}
+  .point-grid{grid-template-columns:1fr;gap:10px}.point-column{padding:16px}.point-column button{min-height:54px;padding:14px;font-size:14px}
+  .actions{gap:14px;align-items:center}.text-button,.outline-button{min-height:42px}.outline-button{padding:7px 10px}
+  .result-banner{grid-template-columns:56px 1fr}.result-banner p,.ad-slot small{display:none}
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Rally Note - Badminton Analytics",
+  "short_name": "Rally Note",
+  "description": "Badminton match scoring and rally analysis.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f6f1",
+  "theme_color": "#174d40",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

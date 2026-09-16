@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="バドミントンのラリー、得失点、勝敗を記録する分析アプリ" />
+  <meta name="theme-color" content="#174d40" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Rally Note" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <title>Rally Note | バドミントン分析</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="mobile.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">R</span><span>RALLY NOTE</span></div>
+      <div class="topbar-actions"><button id="installButton" class="install-button" hidden>アプリを追加</button><div id="matchState" class="match-state">試合を準備中</div></div>
+    </header>
+
+    <!-- Ad slot: replace this content with your ad-network tag (e.g. AdSense) after approval. -->
+    <aside class="ad-slot" aria-label="広告枠"><span>AD</span><p>広告スペース</p><small>広告タグをここに挿入</small></aside>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">BADMINTON MATCH ANALYTICS</p>
+        <h1>ラリーを、<br><em>次の勝ち筋</em>に変える。</h1>
+      </div>
+      <p class="hero-note">15点制・最大21点<br>2ゲーム先取</p>
+    </section>
+
+    <section class="card match-info" aria-labelledby="infoTitle">
+      <div class="section-heading"><p class="kicker">01 / MATCH SETUP</p><h2 id="infoTitle">試合情報</h2></div>
+      <div class="fields">
+        <label>対戦日<input id="matchDate" type="date"></label>
+        <label>対戦相手<input id="opponentName" type="text" placeholder="例：山田 太郎"></label>
+        <label>試合会場<input id="venue" type="text" placeholder="例：市民体育館"></label>
+      </div>
+    </section>
+
+    <section class="score-area" aria-label="スコア入力">
+      <div class="score-card you">
+        <p class="side-label">YOU</p><input id="playerName" class="name-input" value="自分" aria-label="自分の名前">
+        <strong id="myScore" class="score">0</strong><span class="game-wins" id="myGames">GAME 0</span>
+      </div>
+      <div class="game-center"><p id="gameLabel">GAME 1</p><span class="versus">VS</span><div id="gameDots" class="game-dots"></div></div>
+      <div class="score-card opponent">
+        <p class="side-label">OPPONENT</p><p id="opponentDisplay" class="player-display">対戦相手</p>
+        <strong id="opScore" class="score">0</strong><span class="game-wins" id="opGames">GAME 0</span>
+      </div>
+    </section>
+
+    <section class="point-entry" aria-labelledby="entryTitle">
+      <div class="section-heading"><p class="kicker">02 / POINT LOG</p><h2 id="entryTitle">得点を記録</h2></div>
+      <div class="point-grid">
+        <div class="point-column mine"><h3>自分の得点</h3><p>得点につながった要因を選択</p><button data-side="me" data-reason="opponentError"><span>相手のミス</span><b>+1</b></button><button data-side="me" data-reason="myAce"><span>自分のエースショット</span><b>+1</b></button></div>
+        <div class="point-column theirs"><h3>相手の得点</h3><p>失点につながった要因を選択</p><button data-side="opponent" data-reason="myError"><span>自分のミス</span><b>+1</b></button><button data-side="opponent" data-reason="opponentAce"><span>相手のエースショット</span><b>+1</b></button></div>
+      </div>
+      <div class="actions"><button id="undoButton" class="text-button" disabled>↶ 直前の記録を取り消す</button><button id="newMatchButton" class="outline-button">新しい試合を始める</button></div>
+    </section>
+
+    <section class="analysis" aria-labelledby="analysisTitle">
+      <div class="section-heading"><p class="kicker">03 / MATCH ANALYSIS</p><h2 id="analysisTitle">勝敗・得失点分析</h2></div>
+      <div id="resultBanner" class="result-banner"><span>RESULT</span><strong>記録中</strong><p>2ゲーム先取で試合終了</p></div>
+      <div class="analysis-grid">
+        <article class="stat-card"><p>自分の得点</p><strong id="myTotal">0</strong><span>ポイント</span><div class="breakdown"><div><span>相手のミス</span><b id="opponentErrorCount">0</b></div><div><span>自分のエース</span><b id="myAceCount">0</b></div></div></article>
+        <article class="stat-card loss"><p>自分の失点</p><strong id="opTotal">0</strong><span>ポイント</span><div class="breakdown"><div><span>自分のミス</span><b id="myErrorCount">0</b></div><div><span>相手のエース</span><b id="opponentAceCount">0</b></div></div></article>
+        <article class="stat-card highlight"><p>得点率</p><strong id="pointRate">—</strong><span>全ポイント中</span><div class="insight" id="insight">記録を始めると、ここに分析が表示されます。</div></article>
+      </div>
+      <div class="game-history-wrap"><h3>ゲーム別スコア</h3><div id="gameHistory" class="game-history"><p>まだ完了したゲームはありません。</p></div></div>
+    </section>
+
+    <footer><span>RALLY NOTE</span><span>記録はこのブラウザに保存されます</span></footer>
+  </main>
+  <dialog id="gameDialog"><div class="dialog-content"><p id="dialogKicker" class="kicker">GAME FINISHED</p><h2 id="dialogTitle"></h2><p id="dialogText"></p><button id="continueButton">次へ進む</button></div></dialog>
+  <script src="app.js"></script>
+</body>
+</html>
