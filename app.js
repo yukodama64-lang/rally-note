@@ -1,5 +1,5 @@
 const $ = (id) => document.getElementById(id);
-const defaults = () => ({ meta:{date:new Date().toISOString().slice(0,10), matchType:'singles', opponent:'', opponentPartner:'', venue:'', player:'自分', partner:'', memo:''}, games:[], current:{me:0, opponent:0, events:[]}, matchOver:false });
+const defaults = () => ({ meta:{date:new Date().toISOString().slice(0,10), matchType:'singles', opponent:'', opponentPartner:'', opponentAffiliation:'', venue:'', player:'自分', playerAffiliation:'', partner:'', memo:''}, games:[], current:{me:0, opponent:0, events:[]}, matchOver:false });
 let state = JSON.parse(localStorage.getItem('rallyNoteState') || 'null') || defaults();
 state.meta = {...defaults().meta, ...(state.meta || {})};
 if (!['singles','doubles'].includes(state.meta.matchType)) state.meta.matchType='singles';
@@ -11,7 +11,7 @@ function count(reason){return [...state.games.flatMap(g=>g.events),...state.curr
 function isGameWon(a,b){return (a>=15 && a-b>=2) || a===21;}
 function sideLabel(primary, partner, fallback){const names=[primary, state.meta.matchType==='doubles'?partner:''].filter(Boolean);return names.length?names.join(' / '):fallback;}
 function render(){
-  $('matchType').value=state.meta.matchType;$('matchDate').value=state.meta.date;$('opponentName').value=state.meta.opponent;$('opponentPartnerName').value=state.meta.opponentPartner;$('venue').value=state.meta.venue;$('playerName').value=state.meta.player;$('partnerName').value=state.meta.partner;$('matchMemo').value=state.meta.memo;
+  $('matchType').value=state.meta.matchType;$('matchDate').value=state.meta.date;$('opponentName').value=state.meta.opponent;$('opponentAffiliation').value=state.meta.opponentAffiliation;$('opponentPartnerName').value=state.meta.opponentPartner;$('venue').value=state.meta.venue;$('playerName').value=state.meta.player;$('playerAffiliation').value=state.meta.playerAffiliation;$('partnerName').value=state.meta.partner;$('matchMemo').value=state.meta.memo;
   $('doublesFields').hidden=state.meta.matchType!=='doubles';$('playerDisplay').textContent=sideLabel(state.meta.player,state.meta.partner,'自分');$('opponentDisplay').textContent=sideLabel(state.meta.opponent,state.meta.opponentPartner,'対戦相手');$('myScore').textContent=state.current.me;$('opScore').textContent=state.current.opponent;
   $('myGames').textContent=`GAME ${wins('me')}`;$('opGames').textContent=`GAME ${wins('opponent')}`;$('gameLabel').textContent=`GAME ${state.games.length+1}`;
   $('gameDots').innerHTML=[0,1].map(i=>`<i class="${i<state.games.length?'done':''}"></i>`).join(''); $('undoButton').disabled=!state.current.events.length||state.matchOver;
@@ -23,8 +23,8 @@ function render(){
   else {banner.innerHTML='<span>RESULT</span><strong>記録中</strong><p>2ゲーム先取で試合終了</p>';status.textContent=`GAME ${state.games.length+1} を記録中`;}
   $('insight').textContent=!all?'記録を始めると、ここに分析が表示されます。':mt>=ot?`得点率は ${Math.round(mt/all*100)}%。${count('myAce')>=count('opponentError')?'エースで主導権を取れています。':'相手のミスを確実に得点へつなげています。'}`:`得点率は ${Math.round(mt/all*100)}%。${count('myError')>count('opponentAce')?'自分のミスを抑えることが、最初の改善点です。':'相手のエースへの対応を見直しましょう。'}`;
 }
-function updateMeta(){state.meta={...state.meta,matchType:$('matchType').value,date:$('matchDate').value,opponent:$('opponentName').value,opponentPartner:$('opponentPartnerName').value,venue:$('venue').value,player:$('playerName').value||'自分',partner:$('partnerName').value,memo:$('matchMemo').value};save();render();}
-['matchType','matchDate','opponentName','opponentPartnerName','venue','playerName','partnerName'].forEach(id=>$(id).addEventListener('change',updateMeta));
+function updateMeta(){state.meta={...state.meta,matchType:$('matchType').value,date:$('matchDate').value,opponent:$('opponentName').value,opponentAffiliation:$('opponentAffiliation').value,opponentPartner:$('opponentPartnerName').value,venue:$('venue').value,player:$('playerName').value||'自分',playerAffiliation:$('playerAffiliation').value,partner:$('partnerName').value,memo:$('matchMemo').value};save();render();}
+['matchType','matchDate','opponentName','opponentAffiliation','opponentPartnerName','venue','playerName','playerAffiliation','partnerName'].forEach(id=>$(id).addEventListener('change',updateMeta));
 $('matchMemo').addEventListener('input',()=>{state.meta.memo=$('matchMemo').value;save();});
 document.querySelectorAll('[data-side]').forEach(b=>b.addEventListener('click',()=>{
   if(state.matchOver)return;const side=b.dataset.side,reason=b.dataset.reason;state.current[side]++;state.current.events.push({side,reason});

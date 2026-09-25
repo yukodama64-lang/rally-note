@@ -1,4 +1,4 @@
-const CACHE = 'rally-note-v2';
+const CACHE = 'rally-note-v3';
 const ASSETS = ['./', './index.html', './style.css', './mobile.css', './app.js', './manifest.webmanifest', './icon.svg'];
 self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS))));
 self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
