@@ -9,4 +9,5 @@
   .point-grid{grid-template-columns:1fr;gap:10px}.point-column{padding:16px}.point-column button{min-height:54px;padding:14px;font-size:14px}
   .actions{gap:14px;align-items:center}.text-button,.outline-button{min-height:42px}.outline-button{padding:7px 10px}
   .result-banner{grid-template-columns:56px 1fr}.result-banner p,.ad-slot small{display:none}
+  .doubles-fields{grid-template-columns:1fr;gap:10px}.fields select,.memo-field textarea{font-size:16px}.memo-field textarea{min-height:96px}
 }
