@@ -25,6 +25,7 @@ function render(){
 }
 function updateMeta(){state.meta={...state.meta,matchType:$('matchType').value,date:$('matchDate').value,opponent:$('opponentName').value,opponentAffiliation:$('opponentAffiliation').value,opponentPartner:$('opponentPartnerName').value,venue:$('venue').value,player:$('playerName').value||'自分',playerAffiliation:$('playerAffiliation').value,partner:$('partnerName').value,memo:$('matchMemo').value};save();render();}
 ['matchType','matchDate','opponentName','opponentAffiliation','opponentPartnerName','venue','playerName','playerAffiliation','partnerName'].forEach(id=>$(id).addEventListener('change',updateMeta));
+$('matchType').addEventListener('input',updateMeta);
 $('matchMemo').addEventListener('input',()=>{state.meta.memo=$('matchMemo').value;save();});
 document.querySelectorAll('[data-side]').forEach(b=>b.addEventListener('click',()=>{
   if(state.matchOver)return;const side=b.dataset.side,reason=b.dataset.reason;state.current[side]++;state.current.events.push({side,reason});
